@@ -18,7 +18,7 @@ public:
 		size = 0;
 	}
 	void add(int value){
-		stack.append(value);
+		stack.pushFront(value);
 		size++;
 	}
 	int getSize(){
@@ -35,6 +35,18 @@ public:
 			return 0;
 		}
 	}
+
+	int takeFirst(){
+		if (size != 0) {
+			int number = stack.getFirst();
+			stack.removeFirst();
+			size--;
+			return number;
+		} else{
+			return 0;
+		}
+	}
+
 	void print(){
 		stack.print();
 		std::cout << std::endl;

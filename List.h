@@ -53,14 +53,18 @@ class IntList {
 private:
 
 	INode* head;
+
 public:
 	IntList();
 
 	void append(int newValue);
 
-//	char getFirst(){
-//		return head->element;
-//	}
+	void pushFront(int newValue);
+
+	int getFirst(){
+		return head->number;
+	}
+	void removeFirst();
 
 //	void nextElement(){
 //		Node* tmp = head->next;

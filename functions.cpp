@@ -15,32 +15,32 @@ int CharToInt(char character) {
 bool operatorOccurrence(Stack &stack, char op) {
 	std::cout << op << ' ';
 	if (stack.getSize() > 0) stack.print();
-	int sum, a, b;
+	int sum, a, b, c;
 	switch (op) {
 		case '+': {
-			a = stack.takeLast();
-			b = stack.takeLast();
+			a = stack.takeFirst();
+			b = stack.takeFirst();
 			sum = a + b;
 			stack.add(sum);
 			break;
 		}
 		case '-' : {
-			a = stack.takeLast();
-			b = stack.takeLast();
+			a = stack.takeFirst();
+			b = stack.takeFirst();
 			sum = b - a;
 			stack.add(sum);
 			break;
 		}
 		case '*' : {
-			a = stack.takeLast();
-			b = stack.takeLast();
+			a = stack.takeFirst();
+			b = stack.takeFirst();
 			sum = a * b;
 			stack.add(sum);
 			break;
 		}
 		case '/' : {
-			a = stack.takeLast();
-			b = stack.takeLast();
+			a = stack.takeFirst();
+			b = stack.takeFirst();
 			if (a == 0) return false;
 
 			sum = b / a;
@@ -48,7 +48,7 @@ bool operatorOccurrence(Stack &stack, char op) {
 			break;
 		}
 		case 'N': {
-			a = stack.takeLast();
+			a = stack.takeFirst();
 			a *= (-1);
 			stack.add(a);
 			break;
@@ -87,7 +87,7 @@ void calculate(List &input, int NOperations) {
 			if (stack.getSize() == 0){
 				stack.add(newNumber);
 			}else if (!ThereWasASpace){
-				inStack = stack.takeLast();
+				inStack = stack.takeFirst();
 				inStack *= 10;
 				inStack += newNumber;
 				stack.add(inStack);

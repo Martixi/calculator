@@ -111,6 +111,30 @@ void IntList::append(int newValue) {
 		tmp->next = NewElement;
 	}
 }
+void IntList::pushFront(int newValue) {
+	INode* NewElement = new INode;
+	NewElement->number = newValue;
+	if (head == nullptr){
+		head = NewElement;
+		NewElement->next = nullptr;
+	} else{
+		INode* tmp = head;
+		head=NewElement;
+		NewElement->next = tmp;
+	}
+}
+
+void IntList::removeFirst() {
+	if (head == nullptr) return;
+	else if (head->next == nullptr) clear();
+	else{
+		INode* tmp = head->next;
+		delete head;
+		head = tmp;
+	}
+
+}
+
 
 int IntList::getLast() {
 	INode* tmp = head;

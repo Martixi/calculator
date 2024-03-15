@@ -8,49 +8,43 @@
 #include "List.h"
 #include "iostream"
 
-
+//stack based on int list type
 class Stack {
+private:
 	IntList stack;
 	int size;
 
 public:
-	Stack(){
-		size = 0;
-	}
-	void add(int value){
-		stack.pushFront(value);
-		size++;
-	}
-	int getSize(){
-		return size;
-	}
+	Stack();
 
-	int takeLast(){
-		if (size != 0) {
-			int number = stack.getLast();
-			stack.removeLast();
-			size--;
-			return number;
-		} else{
-			return 0;
-		}
-	}
+	void add(int value);
 
-	int takeFirst(){
-		if (size != 0) {
-			int number = stack.getFirst();
-			stack.removeFirst();
-			size--;
-			return number;
-		} else{
-			return 0;
-		}
-	}
+	int getSize() const;
 
-	void print(){
-		stack.print();
-		std::cout << std::endl;
-	}
+	int takeLast();
+
+	int takeFirst();
+
+	void print();
+};
+
+class CHStack{
+private:
+	List stack;
+	int size;
+
+public:
+	CHStack();
+
+	void add(char value);
+
+	int getSize() const;
+
+//	int takeLast(); currently not used
+
+	char takeFirst();
+
+	void print();
 };
 
 

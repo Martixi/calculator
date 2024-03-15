@@ -32,6 +32,29 @@ void List::append(char newValue) {
 	}
 }
 
+void List::pushFront(char newValue){
+	Node* newVal = new Node;
+	newVal->element = newValue;
+	if (head == nullptr){
+	head = newVal;
+	newVal->next = nullptr;
+	} else{
+		Node* tmp = head;
+		head=newVal;
+		newVal->next = tmp;
+	}
+}
+
+void List::removeFirst(){
+	if (head == nullptr) return;
+	else if (head->next == nullptr) clear();
+	else{
+		Node* tmp = head->next;
+		delete head;
+		head = tmp;
+	}
+}
+
 // get lost, get fucked
 char List::getLast(){
 	Node* tmp = head;

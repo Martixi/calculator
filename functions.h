@@ -7,4 +7,8 @@
 
 #endif //CALCULATOR_FUNCTIONS_H
 #include "List.h"
+#include "Stack.h"
+
+int CharToInt(char character);
+bool operatorOccurrence(Stack &stack, char op);
 void calculate(List& input,  int NOperations);

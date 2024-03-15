@@ -4,17 +4,12 @@
 
 using namespace std;
 
-struct Operator{
-	const char plus = '+';
-	const char minus = '-';
-	const char multiply = '*';
-	const char divide = '/';
-};
 
 int main() {
+
 	int NOperations;
 	char ch;
-	List input;
+	List input, convertedInput;
 
 	cin >> NOperations;
 
@@ -25,11 +20,11 @@ int main() {
 		if (ch == '.'){
 			i++;
 			input.print();
-			cout << endl;
+			cout << '\n';
 			calculate(input, NOperations);
-			cout << endl;
+			cout << '\n';
 			input.clear();
-
+			convertedInput.clear();
 		}
 	}
 

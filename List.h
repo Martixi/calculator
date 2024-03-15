@@ -5,6 +5,8 @@
 #ifndef CALCULATOR_LIST_H
 #define CALCULATOR_LIST_H
 
+//structures
+
 struct Node {
 	char element;
 	Node* next = nullptr;
@@ -15,6 +17,12 @@ struct INode {
 	INode* next = nullptr;
 };
 
+//
+//My lists
+//
+
+
+//list for char input
 class List {
 
 private:
@@ -27,9 +35,13 @@ public:
 
 	void append(char newValue);
 
+	void pushFront(char newValue);
+
 	char getFirst(){
 		return head->element;
 	}
+
+	void removeFirst();
 
 	void nextElement(){
 		Node* tmp = head->next;
@@ -49,6 +61,8 @@ public:
 
 };
 
+
+//list for int input
 class IntList {
 private:
 

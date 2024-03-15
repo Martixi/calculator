@@ -12,8 +12,18 @@ int CharToInt(char character) {
 	return number;
 }
 
+bool isNumber(char element){
+	if ((int)element > 48 and (int)element < 58){
+		return true;
+	} else return false;
+}
+
 bool operatorOccurrence(Stack &stack, char op) {
-	std::cout << op << ' ';
+	if (op == '\n') return true;
+	if (op == 'I'){
+		std::cout << op << 'F' << ' ';
+	}else std::cout << op << ' ';
+
 	if (stack.getSize() > 0) stack.print();
 	int sum, a, b, c;
 	switch (op) {
@@ -54,6 +64,11 @@ bool operatorOccurrence(Stack &stack, char op) {
 			break;
 		}
 		case 'I':
+			a = stack.takeFirst();
+			b = stack.takeFirst();
+			c = stack.takeFirst();
+			if (c > 0) stack.add(b);
+			else stack.add(a);
 			break;
 	}
 	return true;
@@ -103,4 +118,17 @@ void calculate(List &input, int NOperations) {
 		}
 	}
 
+}
+
+
+void conversionToNotation(List &input, List &convertedInput){
+	CHStack operatorContainer;
+	char element;
+	while (true){
+		element = input.getFirst();
+		if (isNumber(element)){
+
+		}
+	}
+	;
 }

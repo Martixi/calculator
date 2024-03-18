@@ -8,18 +8,19 @@ using namespace std;
 int main() {
 
 	int NOperations;
-	char ch;
-	List input, convertedInput;
+	char element;
+	bool endOfLine = false;
+	CHStack operationsStack;
+	List convertedInput;
 
 	cin >> NOperations;
 
 	for (int i = 0; i <NOperations;) {
-	 	ch = (char)getchar();
-
-		 input.append(ch);
-		if (ch == '.'){
+		element = (char)getchar();
+		endOfLine = conversionToNotation(element, convertedInput, operationsStack);
+		operationsStack.print();
+		if (endOfLine){
 			i++;
-			conversionToNotation(input, convertedInput);
 			convertedInput.print();
 			cout << '\n';
 			calculate(convertedInput);

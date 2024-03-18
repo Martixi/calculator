@@ -44,6 +44,8 @@ public:
 
 	char takeFirst();
 
+	char takeLast();
+
 	void print();
 };
 

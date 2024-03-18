@@ -89,7 +89,8 @@ void List::print() {
 		cout << tmp->element;
 		tmp = tmp->next;
 	}
-	cout << tmp->element << " ";
+	//commented cause it prints '.' hope it doesn't break anything
+	//cout << tmp->element << " ";
 }
 
 // destruktor
@@ -105,6 +106,11 @@ void List::clear() {
 	delete tmp;
 	head = nullptr;
 
+}
+
+bool List::isEmpty() {
+	if (head == nullptr) return true;
+	else return false;
 }
 
 // wannabe destruktor/ copy cat

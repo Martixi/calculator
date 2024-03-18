@@ -11,4 +11,5 @@
 
 int CharToInt(char character);
 bool operatorOccurrence(Stack &stack, char op);
-void calculate(List& input,  int NOperations);
+void calculate(List& input);
+void conversionToNotation(List &input, List &convertedInput);

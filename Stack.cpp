@@ -53,7 +53,7 @@ CHStack::CHStack() {
 }
 
 void CHStack::add(char value) {
-	stack.pushFront(value);
+	stack.append(value);
 	size++;
 }
 
@@ -65,6 +65,17 @@ char CHStack::takeFirst(){
 	if (size != 0) {
 		char element = stack.getFirst();
 		stack.removeFirst();
+		size--;
+		return element;
+	} else{
+		return 0;
+	}
+}
+
+char CHStack::takeLast() {
+	if (size != 0) {
+		char element = stack.getLast();
+		stack.removeLast();
 		size--;
 		return element;
 	} else{

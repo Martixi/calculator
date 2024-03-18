@@ -19,11 +19,11 @@ int main() {
 		 input.append(ch);
 		if (ch == '.'){
 			i++;
-			input.print();
+			conversionToNotation(input, convertedInput);
+			convertedInput.print();
 			cout << '\n';
-			calculate(input, NOperations);
+			calculate(convertedInput);
 			cout << '\n';
-			input.clear();
 			convertedInput.clear();
 		}
 	}

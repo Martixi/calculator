@@ -55,6 +55,8 @@ public:
 
 	void print();
 
+	bool isEmpty();
+
 	void clear();
 
 	~List();

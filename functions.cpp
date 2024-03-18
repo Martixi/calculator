@@ -7,16 +7,38 @@
 #include "Stack.h"
 #include "iostream"
 
+
 int CharToInt(char character) {
 	int number = (int) character - 48;
 	return number;
 }
 
 bool isNumber(char element){
-	if ((int)element > 48 and (int)element < 58){
+	if ((int)element >= 48 and (int)element <= 58){
 		return true;
 	} else return false;
 }
+
+//returns the priority of an operator
+int operatorPriority(char element){
+	switch (element) {
+		case '+':
+		case '-':
+			return 1; //low priority
+		case '*':
+		case '/':
+			return 2; //high priority
+		case 'I':
+		case 'N':
+		case 'M':
+		case 'm':
+			return 3; //top priority
+
+	}
+	return 0;
+}
+
+
 
 bool operatorOccurrence(Stack &stack, char op) {
 	if (op == '\n') return true;
@@ -76,7 +98,7 @@ bool operatorOccurrence(Stack &stack, char op) {
 }
 
 
-void calculate(List &input, int NOperations) {
+void calculate(List &input) {
 	Stack stack;
 	int newNumber, inStack;
 	bool ThereWasASpace = false, MaxMinDetected = false, zeroCheck = false;
@@ -101,6 +123,7 @@ void calculate(List &input, int NOperations) {
 			newNumber = CharToInt(input.getFirst());
 			if (stack.getSize() == 0){
 				stack.add(newNumber);
+				ThereWasASpace = false;
 			}else if (!ThereWasASpace){
 				inStack = stack.takeFirst();
 				inStack *= 10;
@@ -117,18 +140,139 @@ void calculate(List &input, int NOperations) {
 			input.nextElement();
 		}
 	}
+}
 
+void outputHandler(char tmp, CHStack &stack, List &output){
+	output.append(' ');
+	if (tmp == 'm'){
+		output.append('M');
+		output.append('I');
+		output.append('N');
+	} else if (tmp == 'M') {
+		output.append('M');
+		output.append('A');
+		output.append('X');
+	} else{
+			output.append(tmp);
+			if (tmp == 'I') output.append('F');
+	}
+}
+
+bool areLogicalOperators(char a, char b){
+	if (a == 'N' or a == 'I' or a == 'M') {
+		if (b == 'I' or b == 'N' or a == 'M') return true;
+		else return false;
+	}
+	else return false;
+}
+
+void handleStackOutput(CHStack &stack, List &output, List &input, char element){
+	Stack ElInBrackets;
+	int number;
+	if (element == 'F') return;
+	char tmp = stack.takeLast();
+	if (element == ','){
+		number = ElInBrackets.takeLast();
+		number++;
+		ElInBrackets.add(number);
+		while (true){
+			if (stack.getSize() == 0) break;
+			if (tmp == '('){
+				stack.add(tmp);
+				return;
+			}
+			outputHandler(tmp,stack, output);
+			tmp = stack.takeLast();
+		}
+		stack.add(tmp);
+		return;
+	}
+	else if (element == '('){
+		ElInBrackets.add(1);
+		stack.add(tmp);
+		stack.add(element);
+		return;
+	}
+	else if (element == 'M'){
+		stack.add(tmp);
+		tmp = input.getFirst();
+		if (tmp == 'A') stack.add('M');
+		else stack.add('m');
+		input.removeFirst();
+		input.removeFirst();
+
+		return;
+	}
+	else if (tmp == 'M'){
+		if (element == 'A') stack.add('M');
+		else stack.add('m');
+		input.removeFirst();
+		return;
+	}
+	else if (tmp == '(' and element != ')'){
+		stack.add(tmp);
+		stack.add(element);
+		return;
+	}
+	else if (element == ')'){
+		while (tmp != '('){
+			outputHandler(tmp,stack, output);
+			tmp = stack.takeLast();
+		}
+		tmp = stack.takeLast();
+		number = ElInBrackets.takeLast();
+		if (tmp == 'm' or tmp == 'M'){
+			stack.add(tmp);
+			stack.add((char)(number + 48));
+		} else stack.add(tmp);
+		return;
+	}
+	else if ((operatorPriority(tmp) >= operatorPriority(element)) and
+	!areLogicalOperators(tmp, element)) {
+		outputHandler(tmp, stack, output);
+			while (true){
+				if (stack.getSize() == 0) break;
+				tmp = stack.takeLast();
+				if (tmp == '('){
+					stack.add(tmp);
+					break;
+				}
+				if (operatorPriority(tmp) >= operatorPriority(element)){
+					outputHandler(tmp, stack, output);
+				} else{
+					stack.add(tmp);
+					break;
+				}
+			}
+			stack.add(element);
+	} else {
+		stack.add(tmp);
+		stack.add(element);
+	}
 }
 
 
 void conversionToNotation(List &input, List &convertedInput){
-	CHStack operatorContainer;
+	CHStack charisard;
 	char element;
 	while (true){
 		element = input.getFirst();
-		if (isNumber(element)){
-
+		input.removeFirst();
+		if (element == '.'){
+			while (charisard.getSize() != 0){
+				outputHandler(charisard.takeLast(),charisard, convertedInput);
+			}
+			convertedInput.append(element);
+			break;
+		}
+		else if (isNumber(element)){
+			convertedInput.append(element);
+		}
+		else if (element == ' ') convertedInput.append(element);
+		else if (element == '\n') continue;
+		else{
+			if (charisard.getSize() == 0)charisard.add(element);
+			else handleStackOutput(charisard, convertedInput, input, element);
 		}
 	}
-	;
 }

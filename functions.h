@@ -10,6 +10,6 @@
 #include "Stack.h"
 
 int CharToInt(char character);
-bool operatorOccurrence(Stack &stack, char op);
+bool operatorOccurrence(Stack &stack, List &input, char op);
 void calculate(List& input);
-bool conversionToNotation(char element, List &convertedInput, CHStack &stack);
+bool conversionToNotation(char element, List &convertedInput, CHStack &stack, Stack &countElInBrackets);

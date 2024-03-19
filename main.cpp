@@ -11,14 +11,14 @@ int main() {
 	char element;
 	bool endOfLine = false;
 	CHStack operationsStack;
+	Stack countElInBrackets;
 	List convertedInput;
 
 	cin >> NOperations;
 
 	for (int i = 0; i <NOperations;) {
 		element = (char)getchar();
-		endOfLine = conversionToNotation(element, convertedInput, operationsStack);
-		operationsStack.print();
+		endOfLine = conversionToNotation(element, convertedInput, operationsStack, countElInBrackets);
 		if (endOfLine){
 			i++;
 			convertedInput.print();
@@ -28,7 +28,6 @@ int main() {
 			convertedInput.clear();
 		}
 	}
-
 
 	return 0;
 }

@@ -21,8 +21,6 @@ public:
 
 	int getSize() const;
 
-	int takeLast();
-
 	int takeFirst();
 
 	void print();
@@ -39,8 +37,6 @@ public:
 	void add(char value);
 
 	int getSize() const;
-
-//	int takeLast(); currently not used
 
 	char takeFirst();
 

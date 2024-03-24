@@ -28,6 +28,7 @@ class List {
 private:
 
 	Node* head;
+	Node* tail;
 
 public:
 

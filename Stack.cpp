@@ -17,16 +17,6 @@ int Stack::getSize() const {
 	return size;
 }
 
-int Stack::takeLast() {
-	if (size != 0) {
-		int number = stack.getLast();
-		stack.removeLast();
-		size--;
-		return number;
-	} else{
-		return 0;
-	}
-}
 
 int Stack::takeFirst() {
 	if (size != 0) {
@@ -53,7 +43,7 @@ CHStack::CHStack() {
 }
 
 void CHStack::add(char value) {
-	stack.append(value);
+	stack.pushFront(value);
 	size++;
 }
 
@@ -74,8 +64,8 @@ char CHStack::takeFirst(){
 
 char CHStack::takeLast() {
 	if (size != 0) {
-		char element = stack.getLast();
-		stack.removeLast();
+		char element = stack.getFirst();
+		stack.removeFirst();
 		size--;
 		return element;
 	} else{

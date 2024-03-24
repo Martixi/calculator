@@ -312,7 +312,10 @@ bool conversionToNotation(char element, List &convertedInput, CHStack &stack, St
 		} else if (isNumber(element)){
 			convertedInput.append(element);
 		//space appearance: adds space to list
-		} else if (element == ' ') convertedInput.append(element);
+		} else if (element == ' ') {
+			if (convertedInput.getLast() == ' ') return false;
+			convertedInput.append(element);
+		}
 		//enter in input: skip it
 		else if (element == '\n') {
 			return false;

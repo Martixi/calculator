@@ -14,6 +14,7 @@ using namespace std;
 //bardzo przydatna metoda
 List::List() {
 	head = nullptr;
+	tail = nullptr;
 }
 
 // dodajemy na koniec, nie na początek to nie chiny
@@ -22,13 +23,15 @@ void List::append(char newValue) {
 	NewElement->element = newValue;
 	if (head == nullptr){
 		head = NewElement;
+		tail = NewElement;
 	}
 	else{
-		Node* tmp = head;
-		while (tmp->next != nullptr){
-			tmp = tmp->next;
-		}
+		Node* tmp = tail;
+//		while (tmp->next != nullptr){
+//			tmp = tmp->next;
+//		}
 		tmp->next = NewElement;
+		tail = NewElement;
 	}
 }
 
@@ -37,6 +40,7 @@ void List::pushFront(char newValue){
 	newVal->element = newValue;
 	if (head == nullptr){
 	head = newVal;
+	tail = newVal;
 	newVal->next = nullptr;
 	} else{
 		Node* tmp = head;
@@ -57,11 +61,8 @@ void List::removeFirst(){
 
 // get lost, get fucked
 char List::getLast(){
-	Node* tmp = head;
-	while (tmp->next != nullptr){
-		tmp = tmp->next;
-	}
-	return tmp->element;
+	if (tail == nullptr) return 0;
+	return tail->element;
 }
 
 // dosłownie get fucked last element nobody likes you go away and die
@@ -69,6 +70,7 @@ void List::removeLast() {
 	Node* tmp = head;
 	if (tmp->next == nullptr) {
 		head = nullptr;
+		tail = nullptr;
 		return;
 	}
 	while (tmp->next->next != nullptr){
@@ -76,7 +78,7 @@ void List::removeLast() {
 	}
 	delete tmp->next;
 	tmp->next = nullptr;
-
+	tail = tmp;
 }
 
 void List::print() {
@@ -105,7 +107,7 @@ void List::clear() {
 	}
 	delete tmp;
 	head = nullptr;
-
+	tail = nullptr;
 }
 
 bool List::isEmpty() {

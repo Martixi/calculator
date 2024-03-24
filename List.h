@@ -8,7 +8,7 @@
 //structures
 
 struct Node {
-	char element;
+	char element = ' ';
 	Node* next = nullptr;
 };
 
@@ -21,8 +21,8 @@ struct INode {
 //My lists
 //
 
-
 //list for char input
+
 class List {
 
 private:
@@ -38,25 +38,15 @@ public:
 
 	void pushFront(char newValue);
 
-	char getFirst(){
-		return head->element;
-	}
+	char getFirst();
 
 	void removeFirst();
 
-	void nextElement(){
-		Node* tmp = head->next;
-		delete head;
-		head = tmp;
-	}
+	void nextElement();
 
 	char getLast();
 
-	void removeLast();
-
 	void print();
-
-	bool isEmpty();
 
 	void clear();
 
@@ -66,7 +56,9 @@ public:
 
 
 //list for int input
+
 class IntList {
+
 private:
 
 	INode* head;
@@ -74,24 +66,11 @@ private:
 public:
 	IntList();
 
-	void append(int newValue);
-
 	void pushFront(int newValue);
 
-	int getFirst(){
-		return head->number;
-	}
+	int getFirst();
+
 	void removeFirst();
-
-//	void nextElement(){
-//		Node* tmp = head->next;
-//		delete head;
-//		head = tmp;
-//	}
-
-	int getLast();
-
-	void removeLast();
 
 	void print();
 

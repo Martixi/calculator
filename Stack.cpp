@@ -4,6 +4,10 @@
 
 #include "Stack.h"
 
+//
+// int stack
+//
+
 Stack::Stack() {
 	size = 0;
 }
@@ -16,7 +20,6 @@ void Stack::add(int value) {
 int Stack::getSize() const {
 	return size;
 }
-
 
 int Stack::takeFirst() {
 	if (size != 0) {
@@ -35,7 +38,7 @@ void Stack::print() {
 }
 
 //
-// Char stack methods
+// Char stack
 //
 
 CHStack::CHStack() {
@@ -51,17 +54,6 @@ int CHStack::getSize() const{
 	return size;
 }
 
-char CHStack::takeFirst(){
-	if (size != 0) {
-		char element = stack.getFirst();
-		stack.removeFirst();
-		size--;
-		return element;
-	} else{
-		return 0;
-	}
-}
-
 char CHStack::takeLast() {
 	if (size != 0) {
 		char element = stack.getFirst();
@@ -71,9 +63,4 @@ char CHStack::takeLast() {
 	} else{
 		return 0;
 	}
-}
-
-void CHStack::print(){
-	stack.print();
-	std::cout << '\n';
 }

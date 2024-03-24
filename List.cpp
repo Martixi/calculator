@@ -6,18 +6,15 @@
 #include "iostream"
 using namespace std;
 
+//
+//char list
+//
 
-//char list funkcje ----->
-
-
-// huh stworzylam calą liste zeby zrobic pusty obiekt,
-//bardzo przydatna metoda
 List::List() {
 	head = nullptr;
 	tail = nullptr;
 }
 
-// dodajemy na koniec, nie na początek to nie chiny
 void List::append(char newValue) {
 	Node* NewElement = new Node;
 	NewElement->element = newValue;
@@ -27,9 +24,6 @@ void List::append(char newValue) {
 	}
 	else{
 		Node* tmp = tail;
-//		while (tmp->next != nullptr){
-//			tmp = tmp->next;
-//		}
 		tmp->next = NewElement;
 		tail = NewElement;
 	}
@@ -49,6 +43,10 @@ void List::pushFront(char newValue){
 	}
 }
 
+char List::getFirst(){
+	return head->element;
+}
+
 void List::removeFirst(){
 	if (head == nullptr) return;
 	else if (head->next == nullptr) clear();
@@ -59,26 +57,15 @@ void List::removeFirst(){
 	}
 }
 
-// get lost, get fucked
+void List::nextElement(){
+	Node* tmp = head->next;
+	delete head;
+	head = tmp;
+}
+
 char List::getLast(){
 	if (tail == nullptr) return 0;
 	return tail->element;
-}
-
-// dosłownie get fucked last element nobody likes you go away and die
-void List::removeLast() {
-	Node* tmp = head;
-	if (tmp->next == nullptr) {
-		head = nullptr;
-		tail = nullptr;
-		return;
-	}
-	while (tmp->next->next != nullptr){
-		tmp = tmp->next;
-	}
-	delete tmp->next;
-	tmp->next = nullptr;
-	tail = tmp;
 }
 
 void List::print() {
@@ -91,11 +78,8 @@ void List::print() {
 		cout << tmp->element;
 		tmp = tmp->next;
 	}
-	//commented cause it prints '.' hope it doesn't break anything
-	//cout << tmp->element << " ";
 }
 
-// destruktor
 void List::clear() {
 	Node* tmp = head;
 	if (tmp == nullptr) return;
@@ -110,40 +94,20 @@ void List::clear() {
 	tail = nullptr;
 }
 
-bool List::isEmpty() {
-	if (head == nullptr) return true;
-	else return false;
-}
-
-// wannabe destruktor/ copy cat
 List::~List() {
 	clear();
-	// ja pierdole technologia
-
 }
 
-// koniec char list funkcji teraz int lista funkcje
+//
+// int list
+//
 
 IntList::IntList() {
 	head = nullptr;
 }
 
-void IntList::append(int newValue) {
-	INode* NewElement = new INode;
-	NewElement->number = newValue;
-	if (head == nullptr){
-		head = NewElement;
-	}
-	else{
-		INode* tmp = head;
-		while (tmp->next != nullptr){
-			tmp = tmp->next;
-		}
-		tmp->next = NewElement;
-	}
-}
 void IntList::pushFront(int newValue) {
-	INode* NewElement = new INode;
+	auto * NewElement = new INode;
 	NewElement->number = newValue;
 	if (head == nullptr){
 		head = NewElement;
@@ -155,6 +119,10 @@ void IntList::pushFront(int newValue) {
 	}
 }
 
+int IntList::getFirst(){
+	return head->number;
+}
+
 void IntList::removeFirst() {
 	if (head == nullptr) return;
 	else if (head->next == nullptr) clear();
@@ -164,29 +132,6 @@ void IntList::removeFirst() {
 		head = tmp;
 	}
 
-}
-
-
-int IntList::getLast() {
-	INode* tmp = head;
-	if (tmp->next == nullptr) return head->number;
-	while (tmp->next != nullptr){
-		tmp = tmp->next;
-	}
-	return tmp->number;
-}
-
-void IntList::removeLast() {
-	INode* tmp = head;
-	if (tmp->next == nullptr) {
-		head = nullptr;
-		return;
-	}
-	while (tmp->next->next != nullptr){
-		tmp = tmp->next;
-	}
-	delete tmp->next;
-	tmp->next = nullptr;
 }
 
 void IntList::print() {

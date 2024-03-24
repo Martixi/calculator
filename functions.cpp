@@ -7,25 +7,26 @@
 #include "Stack.h"
 #include "iostream"
 
-
+//convert Char to int type
 int CharToInt(char character) {
 	int number = (int) character - 48;
 	return number;
 }
 
+//convert int to char type
 char IntToChar(int number){
 	char character = (char)(48 + number);
 	return character;
 }
 
-
+//check if the element is number
 bool isNumber(char element){
 	if ((int)element >= 48 and (int)element <= 58){
 		return true;
 	} else return false;
 }
 
-//returns the priority of an operator
+//returns priority of operator given
 int operatorPriority(char element){
 	switch (element) {
 		case '+':
@@ -39,14 +40,15 @@ int operatorPriority(char element){
 		case 'M':
 		case 'm':
 			return 3; //top priority
-
 	}
 	return 0;
 }
 
+//handle min max operator occurrence
 void minMax(Stack &stack, List &list){
 	list.removeFirst();
 	char number;
+	//min function
 	if (list.getFirst() == 'I'){
 		list.removeFirst();
 		list.removeFirst();
@@ -60,7 +62,9 @@ void minMax(Stack &stack, List &list){
 			else smaller = other;
 		}
 		stack.add(smaller);
-	} else{
+	}
+	//max function
+	else{
 		list.removeFirst();
 		list.removeFirst();
 		number = list.getFirst();
@@ -74,10 +78,10 @@ void minMax(Stack &stack, List &list){
 		}
 		stack.add(bigger);
 	}
-
 }
 
-
+//perform calculations with operator given
+//return false if division by 0
 bool operatorOccurrence(Stack &stack, List &input, char op) {
 	if (op == '\n') return true;
 	if (op == 'M'){
@@ -136,77 +140,92 @@ bool operatorOccurrence(Stack &stack, List &input, char op) {
 			break;
 	}
 	return true;
-
 }
 
-
+//main function for reversed notation calculator
 void calculate(List &input) {
 	Stack stack;
 	int newNumber, inStack;
-	bool ThereWasASpace = false, MaxMinDetected = false, zeroCheck = false;
+	bool ThereWasASpace = false, zeroCheck = false;
 	while (true) {
 		if (zeroCheck){
 			std::cout << "ERROR";
 			break;
 		}
-		if (input.getFirst() == 'F'){
+		else if (input.getFirst() == 'F'){
 			input.nextElement();
 			continue;
 		}
-		if (input.getFirst() == '.') {
+		//end of operations
+		else if (input.getFirst() == '.') {
 			stack.print();
 			return;
 		}
-		if (input.getFirst() == ' ') {
+		else if (input.getFirst() == ' ') {
 			ThereWasASpace = true;
 			input.nextElement();
 			continue;
-		} else if (input.getFirst() >= 48 and input.getFirst() <= 58) {
+		}
+		//number in char type hidden, convert it to int if needed
+		else if (input.getFirst() >= 48 and input.getFirst() <= 58) {
 			newNumber = CharToInt(input.getFirst());
 			if (stack.getSize() == 0){
 				stack.add(newNumber);
 				ThereWasASpace = false;
-			}else if (!ThereWasASpace){
+			}
+			else if (!ThereWasASpace){
 				inStack = stack.takeFirst();
 				inStack *= 10;
 				inStack += newNumber;
 				stack.add(inStack);
-			} else{
+			}
+			else{
 				stack.add(newNumber);
 				ThereWasASpace = false;
 			}
 			input.nextElement();
 			continue;
-		} else {
+		}
+		else {
 			zeroCheck = !(operatorOccurrence(stack,input, input.getFirst()));
 			input.nextElement();
 		}
 	}
 }
 
-void outputHandler(char tmp, CHStack &stack, List &output){
+//add numbers and operators in full correct form to reversed notation output
+void outputHandler(char tmp, List &output){
 	int isNumber = (int)tmp - 48;
+
+	//adding number
 	if (isNumber >= 0 and isNumber <= 9){
 		output.append(tmp);
 		return;
 	}
 	output.append(' ');
+	// adding min/max
 	if (tmp == 'm'){
 		output.append('M');
 		output.append('I');
 		output.append('N');
-	} else if (tmp == 'M') {
+	}
+	else if (tmp == 'M') {
 		output.append('M');
 		output.append('A');
 		output.append('X');
-	} else if (tmp == 'I'){
+	}
+	//adding if
+	else if (tmp == 'I'){
 		output.append(tmp);
 		output.append('F');
-	} else{
+	}
+	//adding anything else
+	else{
 		output.append(tmp);
 	}
 }
 
+//check if they are logical operators which involve brackets or N
 bool areLogicalOperators(char a, char b){
 	if (a == 'N' or a == 'I' or a == 'M' or a == 'm') {
 		if (b == 'I' or b == 'N' or b == 'M' or b == 'm') return true;
@@ -216,12 +235,13 @@ bool areLogicalOperators(char a, char b){
 }
 
 
-
+//if user input is not recognised as a number manage placement of operator or other elements
 void handleStackOutput(CHStack &stack, List &output, char element, Stack &countElInBrackets){
-	int number;
 	//skip unnecessary info
 	if (element == 'F') return;
+
 	char tmp = stack.takeLast();
+	//recognize if user added min or max
 	if ((tmp == 'M' or tmp == 'm') and element != '('){
 		if (element == 'X'){
 			stack.add(tmp);
@@ -234,17 +254,20 @@ void handleStackOutput(CHStack &stack, List &output, char element, Stack &countE
 		}
 		return;
 	}
-	if (element == ','){
-		number  = countElInBrackets.takeFirst();
+	//comma added
+	//count elements in brackets
+	else if (element == ','){
+		int number  = countElInBrackets.takeFirst();
 		number++;
 		countElInBrackets.add(number);
+		//comma appearance, empty stack with operators till (
 		while (true){
 			if (stack.getSize() == 0) break;
 			if (tmp == '('){
 				stack.add(tmp);
 				return;
 			}
-			outputHandler(tmp,stack, output);
+			outputHandler(tmp, output);
 			tmp = stack.takeLast();
 		}
 		stack.add(tmp);
@@ -261,50 +284,56 @@ void handleStackOutput(CHStack &stack, List &output, char element, Stack &countE
 		stack.add(element);
 		return;
 	}
+	//close brackets return all operators inside
 	else if (element == ')') {
-		number = countElInBrackets.takeFirst();
+		int number = countElInBrackets.takeFirst();
 		while (tmp != '(') {
-			outputHandler(tmp, stack, output);
+			outputHandler(tmp, output);
 			tmp = stack.takeLast();
 		}
-		if (stack.getSize() > 0) {
+		if (stack.getSize()) {
 			tmp = stack.takeLast();
+			//recognize min/max
 			if (tmp == 'm' or tmp == 'M') {
-				outputHandler(tmp, stack, output);
-				outputHandler(IntToChar(number), stack, output);
-			} else stack.add(tmp);
+				outputHandler(tmp, output);
+				outputHandler(IntToChar(number), output);
+			}
+			else stack.add(tmp);
 		}
 		return;
 	}
+	//priority of operators checked
 	else if ((operatorPriority(tmp) >= operatorPriority(element)) and
 	!areLogicalOperators(tmp, element)) {
-		outputHandler(tmp, stack, output);
-			while (true){
-				if (stack.getSize() == 0) break;
-				tmp = stack.takeLast();
-				if (tmp == '('){
-					stack.add(tmp);
-					break;
-				}
-				if (operatorPriority(tmp) >= operatorPriority(element)){
-					outputHandler(tmp, stack, output);
-				} else{
-					stack.add(tmp);
-					break;
-				}
+		outputHandler(tmp, output);
+		while (true) {
+			if (stack.getSize() == 0) break;
+			tmp = stack.takeLast();
+			if (tmp == '(') {
+				stack.add(tmp);
+				break;
+			} else if (operatorPriority(tmp) >= operatorPriority(element)) {
+				outputHandler(tmp, output);
+			} else {
+				stack.add(tmp);
+				break;
 			}
-			stack.add(element);
-	} else {
+		}
+		stack.add(element);
+		return;
+	}
+	else {
 		stack.add(tmp);
 		stack.add(element);
+		return;
 	}
 }
 
-
+//receive char and sort it in to reversed notation
 bool conversionToNotation(char element, List &convertedInput, CHStack &stack, Stack &countElInBrackets){
 		if (element == '.'){
 			while (stack.getSize() > 0){
-				outputHandler(stack.takeLast(), stack, convertedInput);
+				outputHandler(stack.takeLast(), convertedInput);
 			}
 			convertedInput.append(element);
 			return true;

@@ -6,10 +6,9 @@ using namespace std;
 
 
 int main() {
-
 	int NOperations;
 	char element;
-	bool endOfLine = false;
+	bool endOfLine;
 	CHStack operationsStack;
 	Stack countElInBrackets;
 	List convertedInput;

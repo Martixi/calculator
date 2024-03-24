@@ -8,13 +8,16 @@
 #include "List.h"
 #include "iostream"
 
-//stack based on int list type
+//stack containing int type
+
 class Stack {
 private:
+
 	IntList stack;
 	int size;
 
 public:
+
 	Stack();
 
 	void add(int value);
@@ -25,6 +28,8 @@ public:
 
 	void print();
 };
+
+//stack containing char type
 
 class CHStack{
 private:
@@ -38,11 +43,8 @@ public:
 
 	int getSize() const;
 
-	char takeFirst();
-
 	char takeLast();
 
-	void print();
 };
 
 
